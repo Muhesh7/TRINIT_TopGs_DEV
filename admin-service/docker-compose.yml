@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+    authservice:
+      container_name: "trinit_authservice"
+      image: "trinit_authservice"
+      build:
+          context: .
+          dockerfile: Dockerfile
+          target: ${TARGET}
+      environment:
+            - DB_PORT=${POSTGRES_PORT}
+            - DB_HOST=${POSTGRES_HOST}
+      restart: always
+      ports:
+          - ${SERVER_EXTERNAL_PORT}:${SERVER_EXTERNAL_PORT}
+      volumes:
+        - .:/app  
+
+    authdb:
+      container_name: "trinit_authdb"
+      image: postgres
+      restart: always
+      env_file:
+        - .env
+      ports:
+        - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      command: -p ${POSTGRES_PORT}
+      volumes:
+        - ./database:/data/postgres
+    
+    adminer:
+        container_name: "adminer"
+        image: adminer
+        restart: always
+        ports:
+          - 8000:8080
+networks:
+  default:
+      name: trinit_network

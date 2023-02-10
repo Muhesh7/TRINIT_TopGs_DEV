@@ -1,0 +1,6 @@
+database
+.github
+.githooks
+.vscode
+.env.example
+.gitignore

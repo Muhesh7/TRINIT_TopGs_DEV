@@ -1,0 +1,134 @@
+definitions:
+  models.Error:
+    properties:
+      code:
+        example: 0
+        type: integer
+      message:
+        example: status
+        type: string
+    type: object
+  models.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.LoginResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.RegisterResponse:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact:
+    email: hacksparrow169@gmail.com
+    name: topgs
+  description: Admin Panel for trinit Application.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: trinit Admin
+  version: "1.0"
+paths:
+  /v1/user/signin:
+    post:
+      consumes:
+      - application/json
+      description: Login user
+      parameters:
+      - description: Authenticate user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Login user
+      tags:
+      - User
+  /v1/user/signup:
+    post:
+      consumes:
+      - application/json
+      description: register an user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Register an user
+      tags:
+      - User
+  /v1/user/verifyemail/{verificationCode}:
+    post:
+      consumes:
+      - application/json
+      description: verify an user by sending email
+      parameters:
+      - description: Verify user
+        in: path
+        name: verificationCode
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: verify an user
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
