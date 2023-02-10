@@ -6,7 +6,7 @@ import (
 	"github.com/topgs/trinit/admin-service/controllers"
 )
 
-func NewRouter(e *echo.Echo, c controllers.AppController) {
+func NewRouter(e *echo.Echo, c controllers.MainController) {
 	e.Use(middleware.CORS())
 
 	api := e.Group("/v1")

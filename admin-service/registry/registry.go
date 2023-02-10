@@ -10,15 +10,15 @@ type registry struct {
 }
 
 type Registry interface {
-	NewAppController() controllers.AppController
+	NewMainController() controllers.MainController
 }
 
 func NewRegistry(db *gorm.DB) Registry {
 	return &registry{db}
 }
 
-func (r *registry) NewAppController() controllers.AppController {
-	return controllers.AppController{
+func (r *registry) NewMainController() controllers.MainController {
+	return controllers.MainController{
 		User: r.NewUserController(),
 	}
 }

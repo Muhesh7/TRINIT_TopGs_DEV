@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"regexp"
 
+	"github.com/labstack/echo/v4"
+	"github.com/topgs/trinit/admin-service/schemas"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -66,4 +68,9 @@ func ParseTemplateDir(dir string) (*template.Template, error) {
 	}
 
 	return template.ParseFiles(paths...)
+}
+
+func GetUserDetails(c echo.Context) (*schemas.User, error) {
+	userDetails := c.Get("user").(*schemas.User)
+	return userDetails, nil
 }

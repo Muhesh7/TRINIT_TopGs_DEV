@@ -33,7 +33,7 @@ func main() {
 	// Register app
 	reg := registry.NewRegistry(config.GetDB())
 
-	appController := reg.NewAppController()
+	appController := reg.NewMainController()
 
 	// Seed database
 	// appController.Seed.SeedDB()
