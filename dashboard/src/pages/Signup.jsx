@@ -25,10 +25,16 @@ export const SignupPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{
+      height: "75vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}>
       <Box
         sx={{
-          marginTop: 8,
+          justifySelf: "center",
+          // border: '1px solid #000',
           display: "flex",
           flexDirection: "column",
           alignItems: "center"
@@ -38,7 +44,7 @@ export const SignupPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Log In
+          Sign Up
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
@@ -76,7 +82,7 @@ export const SignupPage = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Login In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item>
