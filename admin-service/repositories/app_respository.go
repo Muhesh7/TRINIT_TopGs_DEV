@@ -13,7 +13,7 @@ type appRepository struct {
 
 type AppRepository interface {
 	CreateApp(app *schemas.App) error
-	CreateRule(rule models.RuleRequest) error
+	CreateRule(rule *models.RuleRequest) error
 	FindRulesByAppID(id uint) ([]models.Rule, error)
 	UpdateRuleByID(ruleId uint, rule models.RuleRequest) error
 	DeleteRuleByID(id uint) error
@@ -27,7 +27,7 @@ func (ar *appRepository) CreateApp(app *schemas.App) error {
 	return ar.db.Create(app).Error
 }
 
-func (ar *appRepository) CreateRule(req models.RuleRequest) error {
+func (ar *appRepository) CreateRule(req *models.RuleRequest) error {
 
 	parameter := schemas.Parameter{
 		AppID: req.AppID,
@@ -42,23 +42,23 @@ func (ar *appRepository) CreateRule(req models.RuleRequest) error {
 
 	var match_type schemas.MatchType
 
-	err = ar.db.Where("name = ?", req.Rule.Match).First(match_type).Error
+	err = ar.db.Where("name = ?", req.Rule.MatchType).First(&match_type).Error
 
 	rule := schemas.Rule{
 		ParameterID: parameter.ID,
 		MatchTypeID: match_type.ID,
 	}
 
-	return ar.db.Create(rule).Error
+	return ar.db.Create(&rule).Error
 }
 
 func (ar *appRepository) UpdateRuleByID(ruleId uint, rule models.RuleRequest) error {
 	var match_type schemas.MatchType
-	query := ar.db.Where("name = ?", rule.Rule.Match).First(match_type)
+	query := ar.db.Where("name = ?", rule.Rule.MatchType).First(&match_type)
 	if query.Error != nil {
 		return query.Error
 	}
-	return ar.db.Model(schemas.Rule{}).Where(
+	return ar.db.Model(&schemas.Rule{}).Where(
 		"id = ?", ruleId).Update(
 		"match_type_id", match_type.ID).Error
 }
@@ -71,6 +71,8 @@ func (ar *appRepository) FindRulesByAppID(id uint) ([]models.Rule, error) {
 	var rules []models.Rule
 	err := ar.db.Preload(clause.Associations).Table("rules").Select(
 		"parameters.name as parameter, match_types.name as match_type",
-	).Where("parameters.app_id = ?", id).Find(&rules).Error
+	).Joins(
+		"JOIN parameters on parameters.id = rules.parameter_id and parameters.app_id = ?", id).Joins(
+		"JOIN match_types on match_types.id = rules.match_type_id").Scan(&rules).Error
 	return rules, err
 }

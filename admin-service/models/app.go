@@ -15,5 +15,5 @@ type RuleRequest struct {
 
 type Rule struct {
 	Parameter string `json:"parameter"`
-	Match     string `json:"match_type"`
+	MatchType string `json:"match_type"`
 }

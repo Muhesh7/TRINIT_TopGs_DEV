@@ -26,8 +26,8 @@ type MatchType struct {
 
 type Rule struct {
 	gorm.Model
-	ParameterID uint `gorm:"not null;"`
-	Parameter   Parameter
 	MatchTypeID uint `gorm:"not null;"`
 	MatchType   MatchType
+	ParameterID uint `gorm:"not null;"`
+	Parameter   Parameter
 }

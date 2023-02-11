@@ -1,4 +1,14 @@
 definitions:
+  models.AppRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  models.AppResponse:
+    properties:
+      secret:
+        type: string
+    type: object
   models.Error:
     properties:
       code:
@@ -36,6 +46,20 @@ definitions:
       message:
         type: string
     type: object
+  models.Rule:
+    properties:
+      match_type:
+        type: string
+      parameter:
+        type: string
+    type: object
+  models.RuleRequest:
+    properties:
+      app_id:
+        type: integer
+      rule:
+        $ref: '#/definitions/models.Rule'
+    type: object
 info:
   contact:
     email: hacksparrow169@gmail.com
@@ -48,6 +72,137 @@ info:
   title: trinit Admin
   version: "1.0"
 paths:
+  /v1/app/deleterule/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete rules
+      parameters:
+      - description: rule id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete rules
+      tags:
+      - App
+  /v1/app/getrules/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get rules
+      parameters:
+      - description: app id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get rules
+      tags:
+      - App
+  /v1/app/registerapp:
+    post:
+      consumes:
+      - application/json
+      description: Register app
+      parameters:
+      - description: Regsiter app
+        in: body
+        name: app
+        required: true
+        schema:
+          $ref: '#/definitions/models.AppRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AppResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Register app
+      tags:
+      - App
+  /v1/app/registerrule:
+    post:
+      consumes:
+      - application/json
+      description: Register rule
+      parameters:
+      - description: Regsiter app
+        in: body
+        name: rule
+        required: true
+        schema:
+          $ref: '#/definitions/models.RuleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AppResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Register rule
+      tags:
+      - App
+  /v1/app/updaterule/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update rule
+      parameters:
+      - description: updated rule
+        in: body
+        name: rule
+        required: true
+        schema:
+          $ref: '#/definitions/models.RuleRequest'
+      - description: rule id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Update rule
+      tags:
+      - App
   /v1/user/signin:
     post:
       consumes:

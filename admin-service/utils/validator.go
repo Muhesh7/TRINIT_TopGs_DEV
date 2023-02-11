@@ -70,7 +70,7 @@ func ParseTemplateDir(dir string) (*template.Template, error) {
 	return template.ParseFiles(paths...)
 }
 
-func GetUserDetails(c echo.Context) (*schemas.User, error) {
-	userDetails := c.Get("user").(*schemas.User)
+func GetUserDetails(c echo.Context) (schemas.User, error) {
+	userDetails := c.Get("user").(schemas.User)
 	return userDetails, nil
 }

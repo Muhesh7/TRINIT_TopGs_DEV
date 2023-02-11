@@ -12,5 +12,6 @@ func NewRouter(e *echo.Echo, c controllers.MainController) {
 	api := e.Group("/v1")
 
 	UserRoutes(api, c.User)
+	AppRoutes(api, c.App)
 	SwaggerRoutes(api)
 }

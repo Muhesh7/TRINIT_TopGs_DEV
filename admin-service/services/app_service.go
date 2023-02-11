@@ -14,7 +14,7 @@ type appService struct {
 type AppService interface {
 	AddApp(userId uint,
 		request models.AppRequest) (models.AppResponse, error)
-	AddAppRule(rule models.RuleRequest) error
+	AddAppRule(rule *models.RuleRequest) error
 	GetAppRules(appId uint) ([]models.Rule, error)
 	UpdateAppRule(ruleId uint, rule models.RuleRequest) error
 	DeleteAppRule(ruleId uint) error
@@ -43,7 +43,7 @@ func (as *appService) AddApp(userId uint,
 	return response, nil
 }
 
-func (as *appService) AddAppRule(rule models.RuleRequest) error {
+func (as *appService) AddAppRule(rule *models.RuleRequest) error {
 	return as.repo.CreateRule(rule)
 }
 
