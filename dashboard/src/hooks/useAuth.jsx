@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     .then((data)=>{
       console.log(data);
       setUser(data.response.token);
-      navigate("/dashboard/profile", { replace: true });
+      navigate("/apps", { replace: true });
     });
   };
 
@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }) => {
         method: 'POST',
         body: JSON.stringify({
           email: data.email,
-          password: data.password
+          password: data.password,
+          name: data.name
         }), 
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         ).then((response) => response.json())
         .then((data)=>{
       console.log(data);
-      navigate("/signin", { replace: true });
+      navigate("/login", { replace: true });
     });
   };
 
