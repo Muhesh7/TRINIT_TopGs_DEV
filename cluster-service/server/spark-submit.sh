@@ -3,7 +3,7 @@ if [ -z $1 ]
 then
 	PYTHON_JOB="server/main.py"
 else
-	EXEC_MEM=$1
+	PYTHON_JOB=$1
 fi
 
 if [ -z $2 ]
@@ -12,6 +12,8 @@ then
 else
 	EXEC_MEM=$2
 fi
+
+# pip install -r requirements.txt
 
 spark-submit --master spark://spark-master:7077 --num-executors 2 \
 	     --executor-memory $EXEC_MEM --executor-cores 1 \

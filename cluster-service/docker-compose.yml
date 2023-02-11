@@ -7,12 +7,12 @@ volumes:
 services:
   spark-server:
     image: spark-server
-    container_name: spark-server
+    container_name: spark-server 
     ports:
       - 8889:8888
     volumes:
       - shared-workspace:/opt/workspace
-      - ./local/server:/opt/workspace/server
+      - ./server:/opt/workspace/server
   spark-master:
     image: spark-master
     container_name: spark-master
