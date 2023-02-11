@@ -7,7 +7,8 @@ import (
 )
 
 func NewRouter(e *echo.Echo, c controllers.MainController) {
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"}}))
 
 	api := e.Group("/v1")
 

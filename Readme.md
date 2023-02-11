@@ -14,6 +14,10 @@ ___
         ```bash
         cp .env.example .env && docker-compose up
         ```
+    * ##### Cluster-Service
+        ```bash
+        ./build.sh && docker-compose up
+        ```    
     * ##### Dashboard
         ```bash
         npm i && npm run dev
