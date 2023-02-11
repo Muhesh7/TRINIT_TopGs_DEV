@@ -10,44 +10,42 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (data) => {
-    axios
-      .post(
-        "http://localhost:8002/v1/user/signin",
-        JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        setUser(data);
-        navigate("/dashboard/profile", { replace: true });
-      });
+    fetch(" https://probe.muhesh.studio/server/dashboard/v1/user/signin",{
+    method: 'POST',
+    body: JSON.stringify({
+      email: data.email,
+      password: data.password
+    }), 
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }
+    }
+    ).then((response) => response.json())
+    .then((data)=>{
+      console.log(data);
+      setUser(data.response.token);
+      navigate("/dashboard/profile", { replace: true });
+    });
   };
 
   const signup = async (data) => {
-    fetch("https://probe.muhesh.studio/server/dashboard/v1/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // setUser(data);
-        // navigate("/dashboard/profile", { replace: true });
-      });
+    fetch(" https://probe.muhesh.studio/server/dashboard/v1/user/signup",{
+        method: 'POST',
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password
+        }), 
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          }
+        }
+        ).then((response) => response.json())
+        .then((data)=>{
+      console.log(data);
+      navigate("/signin", { replace: true });
+    });
   };
 
   const logout = () => {
