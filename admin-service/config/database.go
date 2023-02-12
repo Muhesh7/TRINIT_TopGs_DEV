@@ -7,7 +7,6 @@ import (
 	"github.com/topgs/trinit/admin-service/schemas"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 // DB is the database
@@ -23,7 +22,7 @@ func ConnectDB() {
 	db, er = gorm.Open(postgres.New(postgres.Config{
 		DSN: dsn,
 	}), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		//Logger: logger.Default.LogMode(logger.Info),
 	})
 	if er != nil {
 		fmt.Println(color.RedString("Error connecting to database"))

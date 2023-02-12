@@ -19,7 +19,7 @@ def get_fake_data():
 
 with open('user_details.json', 'w') as f:
     data = []
-    for _ in range(1000):
+    for _ in range(10):
         data.append(get_fake_data())
     json.dump(data, f)
 
