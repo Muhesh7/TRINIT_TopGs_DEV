@@ -1,2 +1,6 @@
 local/*
 server-dummy
+.env
+.venv
+database
+sd.txt

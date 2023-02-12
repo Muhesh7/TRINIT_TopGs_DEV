@@ -14,6 +14,7 @@ services:
       restart: always
       ports:
           - ${SERVER_EXTERNAL_PORT}:${SERVER_EXTERNAL_PORT}
+          - ${RPC_PORT}:${RPC_PORT}
       volumes:
         - .:/app  
 
@@ -37,4 +38,5 @@ services:
           - 8000:8080
 networks:
   default:
-      name: trinit_network
+      external:
+        name: trinit_network

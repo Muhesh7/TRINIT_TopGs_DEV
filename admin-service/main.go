@@ -1,11 +1,20 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net"
+	"sync"
+
 	"github.com/labstack/echo/v4"
 	"github.com/topgs/trinit/admin-service/config"
 	_ "github.com/topgs/trinit/admin-service/docs"
+	"github.com/topgs/trinit/admin-service/gen/app"
+	rpc "github.com/topgs/trinit/admin-service/grpc"
+	"github.com/topgs/trinit/admin-service/middlewares"
 	"github.com/topgs/trinit/admin-service/registry"
 	"github.com/topgs/trinit/admin-service/router"
+	"google.golang.org/grpc"
 )
 
 //	@title			trinit Admin
@@ -44,6 +53,27 @@ func main() {
 	// Create Router
 	router.NewRouter(server, appController)
 
-	server.Logger.Fatal(server.Start(":" + config.ServerPort))
+	var wg sync.WaitGroup
+	wg.Add(2)
+	// Start Server
+	go func() {
+		server.Logger.Fatal(server.Start(":" + config.ServerPort))
+	}()
+
+	grpcPort := config.RPCPort
+	grpcServer := grpc.NewServer(middlewares.WithServerUnaryInterceptor())
+	app.RegisterAuthServiceServer(grpcServer, &rpc.AuthRPCServer{})
+	go func() {
+		lis, err := net.Listen("tcp", fmt.Sprintf(":%s", grpcPort))
+		if err != nil {
+			log.Panic("grpc server running error on", err)
+		}
+		err1 := grpcServer.Serve(lis)
+		if err1 != nil {
+			log.Panic("grpc server running error on", err1)
+		}
+	}()
+
+	wg.Wait()
 
 }

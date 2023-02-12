@@ -1,0 +1,5 @@
+Faker==16.8.1
+fastapi==0.91.0
+neo4j==5.5.0
+pandas==1.5.3
+kafka

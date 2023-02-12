@@ -1,6 +1,0 @@
-flask
-Faker
-pandas
-numpy
-kafka-python
-pyspark

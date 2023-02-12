@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package rpcs;
+
+option go_package = "./app";
+
+message AppAuthRequest {
+    string app_id = 1;
+    string app_secret = 2;
+}
+
+message AppAuthResponse {
+    bool isSuccess = 1;
+    repeated Rule rule = 2;
+}
+
+message Rule {
+    string parameter = 1;
+    string match_type = 2;	
+}
+
+service AuthService {
+    rpc AuthRPC(AppAuthRequest) returns (AppAuthResponse){};
+}
